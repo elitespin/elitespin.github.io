@@ -11,18 +11,15 @@
 
 body{
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  
-  /* ФОН ДЛЯ ПК */
   background-color: #0a0f18;
-  background-image: url('bg.jpg'); /* Горизонтальная картинка */
+  background-image: url('bg.jpg');
   background-size: cover;
   background-position: center center;
   background-repeat: no-repeat;
-  
   min-height: 100dvh;
   display: flex;
   justify-content: center;
-  align-items: center; /* На ПК форма по центру */
+  align-items: center;
   padding: 20px;
   color: #fff;
 }
@@ -39,7 +36,7 @@ body{
   max-width: 420px;
   width: 100%;
   position: relative;
-  margin-top: 15vh; /* На ПК сдвигаем чуть вниз, чтобы не перекрывать текст */
+  margin-top: 15vh;
   animation: cardIn 0.5s ease-out;
 }
 
@@ -143,22 +140,16 @@ input[type=email]:disabled{
   gap: 6px;
 }
 
-/* =========================================
-   МОБИЛЬНАЯ ВЕРСИЯ (ВЕРТИКАЛЬНАЯ КАРТИНКА)
-   ========================================= */
 @media (max-width: 768px) {
   body {
-    /* Подключаем вертикальную картинку для мобилки */
     background-image: url('bg-mobile.jpg');
     background-position: center center;
-    
-    /* Прижимаем форму к низу (на ковер) */
     align-items: flex-end; 
     padding-bottom: 30px;
   }
   
   .card {
-    margin-top: 0; /* Убираем сдвиг ПК-версии */
+    margin-top: 0;
     padding: 25px 20px;
   }
   
