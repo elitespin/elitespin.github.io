@@ -11,45 +11,34 @@
 
 body{
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  
-  /* Убрано затемнение! Картинка в оригинальном качестве */
   background: url('bg.jpg') center center no-repeat;
   background-size: cover;
-  
-  min-height: 100dvh; /* 100dvh лучше для мобилок */
+  min-height: 100dvh;
   display: flex;
-  justify-content: center; /* Ровно по центру */
+  justify-content: center;
   align-items: center;
   padding: 20px;
   color: #fff;
 }
 
-/* Премиум карточка с золотой рамкой */
 .card{
-  background: rgba(10, 15, 30, 0.9); /* Плотный темный фон для читаемости */
+  background: rgba(10, 15, 30, 0.9);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  
   padding: 35px 30px;
   border-radius: 16px;
-  
-  /* ЯРКАЯ ЗОЛОТАЯ РАМКА С СИЯНИЕМ */
-  border: 2px solid #d4af37; 
+  border: 2px solid #d4af37;
   box-shadow: 0 0 30px rgba(212, 175, 55, 0.5), 0 20px 40px rgba(0,0,0,0.8);
-  
   text-align: center;
   max-width: 450px;
   width: 100%;
   position: relative;
-  
-  /* Сдвиг вниз на ПК, чтобы не перекрывать джекпот */
-  margin-top: 15vh; 
+  margin-top: 15vh;
   animation: cardIn 0.5s ease-out;
 }
 
 @keyframes cardIn{from{opacity:0;transform:scale(0.95)}to{opacity:1;transform:scale(1)}}
 
-/* Текст */
 .subtitle{
   font-size: 18px;
   font-weight: 500;
@@ -65,7 +54,6 @@ body{
   margin-bottom: 10px;
 }
 
-/* Поле ввода */
 input[type=email]{
   width: 100%;
   padding: 18px;
@@ -103,7 +91,6 @@ input[type=email]:disabled{
   animation: none;
 }
 
-/* Выпадающая подсказка домена */
 .suggestion{
   position: absolute;
   left: 0; right: 0; top: calc(100% + 8px);
@@ -152,20 +139,14 @@ input[type=email]:disabled{
   gap: 6px;
 }
 
-/* =========================================
-   АДАПТИВНОСТЬ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ
-   ========================================= */
 @media (max-width: 768px) {
   body {
     background-position: center top;
   }
-  
   .card {
-    /* На мобилках сдвигаем вниз меньше */
-    margin-top: 20vh; 
+    margin-top: 20vh;
     padding: 25px 20px;
   }
-  
   .subtitle {
     font-size: 16px;
   }
@@ -178,15 +159,7 @@ input[type=email]:disabled{
   <p class="subtitle" id="subtitle">Enter your email address to activate your welcome package.</p>
 
   <div class="wrap">
-    <input type="email" id="email"
-           class="pulse"
-           placeholder="Email Address"
-           autocomplete="email"
-           inputmode="email"
-           autocapitalize="off"
-           autocorrect="off"
-           spellcheck="false"
-           maxlength="128">
+    <input type="email" id="email" class="pulse" placeholder="Email Address" autocomplete="email" inputmode="email" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="128">
     <div class="suggestion" id="suggestion" hidden></div>
   </div>
 
@@ -267,7 +240,6 @@ input[type=email]:disabled{
       }
     };
 
-    // Отправляем как text/plain для избежания OPTIONS (preflight)
     fetch(CONFIG.FUNCTION_URL + '?action=resolve', {
       method: 'POST',
       headers: { 'Content-Type': 'text/plain' },
