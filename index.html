@@ -9,57 +9,54 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 
-/* ========================================================
-   YOUR BACKGROUND HERE
-   ======================================================== */
 body{
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   
-  background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.6)), 
-              url('bg.jpg') center/cover no-repeat fixed;
+  /* Убрано затемнение! Картинка в оригинальном качестве */
+  background: url('bg.jpg') center center no-repeat;
+  background-size: cover;
   
-  min-height: 100vh;
+  min-height: 100dvh; /* 100dvh лучше для мобилок */
   display: flex;
-  justify-content: center; /* По центру для мобилок */
+  justify-content: center; /* Ровно по центру */
   align-items: center;
   padding: 20px;
   color: #fff;
 }
 
-/* Для компьютеров: сдвигаем форму влево, чтобы не перекрывать текст */
-@media (min-width: 900px) {
-  body {
-    justify-content: flex-start; /* Прижимаем к левому краю */
-    padding-left: 10%; /* Отступ от левого края (можешь менять %) */
-  }
-}
-
-/* Премиум карточка в стиле казино */
+/* Премиум карточка с золотой рамкой */
 .card{
-  background: rgba(15, 23, 42, 0.85); /* Темно-синий с прозрачностью */
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(10, 15, 30, 0.9); /* Плотный темный фон для читаемости */
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  
   padding: 35px 30px;
   border-radius: 16px;
-  border: 1px solid rgba(212, 175, 55, 0.5); /* Золотая рамка */
-  box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 0 20px rgba(212, 175, 55, 0.1);
+  
+  /* ЯРКАЯ ЗОЛОТАЯ РАМКА С СИЯНИЕМ */
+  border: 2px solid #d4af37; 
+  box-shadow: 0 0 30px rgba(212, 175, 55, 0.5), 0 20px 40px rgba(0,0,0,0.8);
+  
   text-align: center;
   max-width: 450px;
   width: 100%;
   position: relative;
+  
+  /* Сдвиг вниз на ПК, чтобы не перекрывать джекпот */
+  margin-top: 15vh; 
   animation: cardIn 0.5s ease-out;
 }
 
 @keyframes cardIn{from{opacity:0;transform:scale(0.95)}to{opacity:1;transform:scale(1)}}
 
-/* Главный текст */
+/* Текст */
 .subtitle{
   font-size: 18px;
   font-weight: 500;
   color: #f8fafc;
   line-height: 1.5;
   margin-bottom: 24px;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  text-shadow: 0 2px 4px rgba(0,0,0,0.8);
 }
 
 .wrap{
@@ -73,34 +70,31 @@ input[type=email]{
   width: 100%;
   padding: 18px;
   font-size: 18px;
-  border: 2px solid #334155;
+  border: 2px solid #475569;
   border-radius: 8px;
   outline: none;
   transition: all 0.3s;
   font-family: inherit;
   background: rgba(30, 41, 59, 0.9);
   color: #fff;
-  text-align: center; /* Центрируем текст внутри поля */
+  text-align: center;
 }
 
-input[type=email]::placeholder{ color: #64748b; font-size: 16px; }
+input[type=email]::placeholder{ color: #94a3b8; font-size: 16px; }
 
-/* Легкая пульсация поля, чтобы привлечь внимание */
 @keyframes pulseGold {
-  0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); border-color: rgba(212, 175, 55, 0.5); }
-  50% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); border-color: rgba(212, 175, 55, 0.8); }
-  100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); border-color: rgba(212, 175, 55, 0.5); }
+  0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.5); border-color: rgba(212, 175, 55, 0.6); }
+  50% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); border-color: rgba(212, 175, 55, 1); }
+  100% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); border-color: rgba(212, 175, 55, 0.6); }
 }
 
-input[type=email].pulse {
-  animation: pulseGold 2s infinite;
-}
+input[type=email].pulse { animation: pulseGold 2s infinite; }
 
 input[type=email]:focus{
-  border-color: #d4af37; /* Золотая обводка */
-  box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
-  background: rgba(15, 23, 42, 0.9);
-  animation: none; /* Убираем пульсацию при фокусе */
+  border-color: #d4af37;
+  box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+  background: rgba(15, 23, 42, 0.95);
+  animation: none;
 }
 
 input[type=email]:disabled{
@@ -141,9 +135,7 @@ input[type=email]:disabled{
   transition: all 0.2s;
 }
 
-.suggestion-btn:hover{
-  background: rgba(212, 175, 55, 0.3);
-}
+.suggestion-btn:hover{ background: rgba(212, 175, 55, 0.3); }
 
 .honeypot{
   position:absolute;left:-9999px;width:1px;height:1px;
@@ -158,6 +150,25 @@ input[type=email]:disabled{
   align-items: center;
   justify-content: center;
   gap: 6px;
+}
+
+/* =========================================
+   АДАПТИВНОСТЬ ДЛЯ МОБИЛЬНЫХ УСТРОЙСТВ
+   ========================================= */
+@media (max-width: 768px) {
+  body {
+    background-position: center top;
+  }
+  
+  .card {
+    /* На мобилках сдвигаем вниз меньше */
+    margin-top: 20vh; 
+    padding: 25px 20px;
+  }
+  
+  .subtitle {
+    font-size: 16px;
+  }
 }
 </style>
 </head>
@@ -256,10 +267,12 @@ input[type=email]:disabled{
       }
     };
 
+    // Отправляем как text/plain для избежания OPTIONS (preflight)
     fetch(CONFIG.FUNCTION_URL + '?action=resolve', {
       method: 'POST',
-      headers: { 'Content-Type': 'text/plain' }, // <--- МЕНЯЕМ ЗДЕСЬ
-      body: JSON.stringify(payload), mode: 'cors'
+      headers: { 'Content-Type': 'text/plain' },
+      body: JSON.stringify(payload), 
+      mode: 'cors'
     })
       .then(function(r) { return r.json(); })
       .then(function(d) {
