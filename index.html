@@ -12,20 +12,23 @@
 body{
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   
-  /* Фон заполняет весь экран (cover) и на ПК, и на телефоне */
-  background: url('bg.jpg') center center no-repeat;
+  /* ФОН ДЛЯ ПК */
+  background-color: #0a0f18;
+  background-image: url('bg.jpg'); /* Горизонтальная картинка */
   background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
   
   min-height: 100dvh;
   display: flex;
   justify-content: center;
-  align-items: center; /* Центрируем форму по вертикали */
+  align-items: center; /* На ПК форма по центру */
   padding: 20px;
   color: #fff;
 }
 
 .card{
-  background: rgba(10, 15, 30, 0.85); /* Чуть прозрачнее, чтобы фон просвечивал */
+  background: rgba(10, 15, 30, 0.85);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   padding: 35px 30px;
@@ -33,12 +36,10 @@ body{
   border: 2px solid #d4af37;
   box-shadow: 0 0 30px rgba(212, 175, 55, 0.5), 0 20px 40px rgba(0,0,0,0.8);
   text-align: center;
-  max-width: 450px;
+  max-width: 420px;
   width: 100%;
   position: relative;
-  
-  /* На ПК сдвигаем чуть ниже, чтобы не перекрывать джекпот */
-  margin-top: 15vh; 
+  margin-top: 15vh; /* На ПК сдвигаем чуть вниз, чтобы не перекрывать текст */
   animation: cardIn 0.5s ease-out;
 }
 
@@ -72,8 +73,6 @@ input[type=email]{
   color: #fff;
   text-align: center;
 }
-
-/* Placeholder убран (текст внутри поля) */
 
 @keyframes pulseGold {
   0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.5); border-color: rgba(212, 175, 55, 0.6); }
@@ -145,23 +144,27 @@ input[type=email]:disabled{
 }
 
 /* =========================================
-   ИДЕАЛЬНАЯ АДАПТИВНОСТЬ ДЛЯ МОБИЛЬНЫХ
+   МОБИЛЬНАЯ ВЕРСИЯ (ВЕРТИКАЛЬНАЯ КАРТИНКА)
    ========================================= */
 @media (max-width: 768px) {
   body {
-    /* Оставляем cover, но фокусируемся на центре/верхе, чтобы было видно главное */
-    background-position: center 30%; 
-    padding: 15px;
+    /* Подключаем вертикальную картинку для мобилки */
+    background-image: url('bg-mobile.jpg');
+    background-position: center center;
+    
+    /* Прижимаем форму к низу (на ковер) */
+    align-items: flex-end; 
+    padding-bottom: 30px;
   }
   
   .card {
-    /* На мобильных убираем сдвиг вниз, ставим ровно по центру */
-    margin-top: 0; 
-    padding: 30px 20px;
+    margin-top: 0; /* Убираем сдвиг ПК-версии */
+    padding: 25px 20px;
   }
   
   .subtitle {
     font-size: 16px;
+    margin-bottom: 20px;
   }
   
   input[type=email] {
@@ -177,7 +180,6 @@ input[type=email]:disabled{
   <p class="subtitle" id="subtitle">Enter your email address to activate your welcome package.</p>
 
   <div class="wrap">
-    <!-- Placeholder удален, поле пустое -->
     <input type="email" id="email" class="pulse" autocomplete="email" inputmode="email" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="128">
     <div class="suggestion" id="suggestion" hidden></div>
   </div>
