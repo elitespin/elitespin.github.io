@@ -9,9 +9,6 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 
-/* ========================================================
-   YOUR BACKGROUND HERE
-   ======================================================== */
 body{
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   
@@ -20,18 +17,10 @@ body{
   
   min-height: 100vh;
   display: flex;
-  justify-content: center; /* По центру для мобилок */
-  align-items: center;
+  justify-content: center; /* Идеально по центру по горизонтали */
+  align-items: center;     /* Идеально по центру по вертикали */
   padding: 20px;
   color: #fff;
-}
-
-/* Для компьютеров: сдвигаем форму влево, чтобы не перекрывать текст */
-@media (min-width: 900px) {
-  body {
-    justify-content: flex-start; /* Прижимаем к левому краю */
-    padding-left: 10%; /* Отступ от левого края (можешь менять %) */
-  }
 }
 
 /* Премиум карточка в стиле казино */
@@ -97,10 +86,10 @@ input[type=email].pulse {
 }
 
 input[type=email]:focus{
-  border-color: #d4af37; /* Золотая обводка */
+  border-color: #d4af37;
   box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
   background: rgba(15, 23, 42, 0.9);
-  animation: none; /* Убираем пульсацию при фокусе */
+  animation: none;
 }
 
 input[type=email]:disabled{
