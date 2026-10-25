@@ -139,16 +139,29 @@ input[type=email]:disabled{
   gap: 6px;
 }
 
+/* =========================================
+   ИСПРАВЛЕННАЯ АДАПТИВНОСТЬ ДЛЯ МОБИЛЬНЫХ
+   ========================================= */
 @media (max-width: 768px) {
   body {
+    /* Картинка подстраивается под ширину экрана, не обрезая бока */
+    background-size: 100% auto; 
     background-position: center top;
+    background-color: #0a0f18; /* Темный фон для низа экрана */
+    
+    /* Прижимаем карточку к низу */
+    align-items: flex-end; 
+    padding-bottom: 20px;
   }
+  
   .card {
-    margin-top: 20vh;
+    margin-top: 0; /* Убираем сдвиг для ПК */
     padding: 25px 20px;
   }
+  
   .subtitle {
     font-size: 16px;
+    margin-bottom: 20px;
   }
 }
 </style>
