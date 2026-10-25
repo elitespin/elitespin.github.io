@@ -17,8 +17,8 @@ body{
   
   min-height: 100vh;
   display: flex;
-  justify-content: center; /* Идеально по центру по горизонтали */
-  align-items: center;     /* Идеально по центру по вертикали */
+  justify-content: center; /* По центру по горизонтали */
+  align-items: center;     /* По центру по вертикали */
   padding: 20px;
   color: #fff;
 }
@@ -36,7 +36,15 @@ body{
   max-width: 450px;
   width: 100%;
   position: relative;
+  top: 12vh; /* <--- ВОТ ЭТА СТРОКА СДВИГАЕТ КАРТОЧКУ ВНИЗ */
   animation: cardIn 0.5s ease-out;
+}
+
+/* На мобильных сдвигаем чуть меньше, чтобы влезло в экран */
+@media (max-width: 768px) {
+  .card {
+    top: 8vh; 
+  }
 }
 
 @keyframes cardIn{from{opacity:0;transform:scale(0.95)}to{opacity:1;transform:scale(1)}}
