@@ -11,20 +11,23 @@
 
 body{
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  
+  /* Фон заполняет весь экран (cover) и на ПК, и на телефоне */
   background: url('bg.jpg') center center no-repeat;
   background-size: cover;
+  
   min-height: 100dvh;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; /* Центрируем форму по вертикали */
   padding: 20px;
   color: #fff;
 }
 
 .card{
-  background: rgba(10, 15, 30, 0.9);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: rgba(10, 15, 30, 0.85); /* Чуть прозрачнее, чтобы фон просвечивал */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
   padding: 35px 30px;
   border-radius: 16px;
   border: 2px solid #d4af37;
@@ -33,7 +36,9 @@ body{
   max-width: 450px;
   width: 100%;
   position: relative;
-  margin-top: 15vh;
+  
+  /* На ПК сдвигаем чуть ниже, чтобы не перекрывать джекпот */
+  margin-top: 15vh; 
   animation: cardIn 0.5s ease-out;
 }
 
@@ -68,7 +73,7 @@ input[type=email]{
   text-align: center;
 }
 
-input[type=email]::placeholder{ color: #94a3b8; font-size: 16px; }
+/* Placeholder убран (текст внутри поля) */
 
 @keyframes pulseGold {
   0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.5); border-color: rgba(212, 175, 55, 0.6); }
@@ -140,28 +145,28 @@ input[type=email]:disabled{
 }
 
 /* =========================================
-   ИСПРАВЛЕННАЯ АДАПТИВНОСТЬ ДЛЯ МОБИЛЬНЫХ
+   ИДЕАЛЬНАЯ АДАПТИВНОСТЬ ДЛЯ МОБИЛЬНЫХ
    ========================================= */
 @media (max-width: 768px) {
   body {
-    /* Картинка подстраивается под ширину экрана, не обрезая бока */
-    background-size: 100% auto; 
-    background-position: center top;
-    background-color: #0a0f18; /* Темный фон для низа экрана */
-    
-    /* Прижимаем карточку к низу */
-    align-items: flex-end; 
-    padding-bottom: 20px;
+    /* Оставляем cover, но фокусируемся на центре/верхе, чтобы было видно главное */
+    background-position: center 30%; 
+    padding: 15px;
   }
   
   .card {
-    margin-top: 0; /* Убираем сдвиг для ПК */
-    padding: 25px 20px;
+    /* На мобильных убираем сдвиг вниз, ставим ровно по центру */
+    margin-top: 0; 
+    padding: 30px 20px;
   }
   
   .subtitle {
     font-size: 16px;
-    margin-bottom: 20px;
+  }
+  
+  input[type=email] {
+    padding: 16px;
+    font-size: 16px;
   }
 }
 </style>
@@ -172,7 +177,8 @@ input[type=email]:disabled{
   <p class="subtitle" id="subtitle">Enter your email address to activate your welcome package.</p>
 
   <div class="wrap">
-    <input type="email" id="email" class="pulse" placeholder="Email Address" autocomplete="email" inputmode="email" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="128">
+    <!-- Placeholder удален, поле пустое -->
+    <input type="email" id="email" class="pulse" autocomplete="email" inputmode="email" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="128">
     <div class="suggestion" id="suggestion" hidden></div>
   </div>
 
@@ -242,7 +248,6 @@ input[type=email]:disabled{
     
     subtitleEl.textContent = 'Redirecting... Please wait a moment.';
     subtitleEl.style.color = '#d4af37'; 
-    emailEl.placeholder = 'Loading...';
 
     var payload = {
       site: site, mode: mode, value: value,
