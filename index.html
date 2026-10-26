@@ -71,10 +71,9 @@ input[type=email]{
   text-align: center;
 }
 
-/* Стиль для подсказки внутри поля */
 input[type=email]::placeholder {
   color: #94a3b8;
-  opacity: 1; /* Для Firefox */
+  opacity: 1;
 }
 
 @keyframes pulseGold {
@@ -179,7 +178,6 @@ input[type=email]:disabled{
   <p class="subtitle" id="subtitle">Enter your email address to activate your welcome package.</p>
 
   <div class="wrap">
-    <!-- Вернули placeholder="Enter your email" -->
     <input type="email" id="email" class="pulse" placeholder="Enter your email" autocomplete="email" inputmode="email" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="128">
     <div class="suggestion" id="suggestion" hidden></div>
   </div>
