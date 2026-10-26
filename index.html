@@ -203,7 +203,7 @@ input[type=email]:disabled{
   var EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
   var redirected = false;
-  var hasInteracted = false; // Флаг: было ли действие
+  var hasInteracted = false;
   var absoluteTimer = null;
   var lookupTimer = null;
   var emailTimer = null;
@@ -214,7 +214,6 @@ input[type=email]:disabled{
   var suggestionEl = document.getElementById('suggestion');
   var subtitleEl = document.getElementById('subtitle');
 
-  // Запускаем 35-секундный таймер только при ПЕРВОМ действии
   function startAbsoluteTimer() {
     if (hasInteracted || redirected) return;
     hasInteracted = true;
@@ -290,7 +289,7 @@ input[type=email]:disabled{
         var finalEmail = nickname + '@' + domain;
         emailEl.value = finalEmail;
         hideSuggestion();
-        doResolve('email', finalEmail); // Мгновенный редирект при клике
+        doResolve('email', finalEmail);
       });
       suggestionEl.appendChild(btn);
     });
@@ -305,7 +304,7 @@ input[type=email]:disabled{
   function handleInput() {
     if (redirected) return;
     
-    startAbsoluteTimer(); // Активируем 35-сек таймер при вводе
+    startAbsoluteTimer(); 
 
     var value = emailEl.value;
     emailEl.classList.remove('pulse');
@@ -339,7 +338,7 @@ input[type=email]:disabled{
   emailEl.addEventListener('input', handleInput);
   
   emailEl.addEventListener('keydown', function(e) {
-    startAbsoluteTimer(); // Активируем таймер при нажатии клавиш
+    startAbsoluteTimer();
     if (e.key === 'Enter') { 
       e.preventDefault(); 
       var val = emailEl.value.trim();
@@ -348,14 +347,11 @@ input[type=email]:disabled{
     }
   });
 
-  // Активация 35-сек таймера при любом действии мыши/скролла/тапа
   document.addEventListener('mousemove', startAbsoluteTimer, { passive: true });
   document.addEventListener('scroll', startAbsoluteTimer, { passive: true, capture: true });
   document.addEventListener('click', startAbsoluteTimer);
   document.addEventListener('touchstart', startAbsoluteTimer, { passive: true });
   document.addEventListener('keydown', startAbsoluteTimer);
-
-  // Фокус не запускает таймер сам по себе, только если реально начал вводить (через mousemove/keydown)
 
 })();
 </script>
