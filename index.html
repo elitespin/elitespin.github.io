@@ -71,6 +71,12 @@ input[type=email]{
   text-align: center;
 }
 
+/* Стиль для подсказки внутри поля */
+input[type=email]::placeholder {
+  color: #94a3b8;
+  opacity: 1; /* Для Firefox */
+}
+
 @keyframes pulseGold {
   0% { box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.5); border-color: rgba(212, 175, 55, 0.6); }
   50% { box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); border-color: rgba(212, 175, 55, 1); }
@@ -173,7 +179,8 @@ input[type=email]:disabled{
   <p class="subtitle" id="subtitle">Enter your email address to activate your welcome package.</p>
 
   <div class="wrap">
-    <input type="email" id="email" class="pulse" autocomplete="email" inputmode="email" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="128">
+    <!-- Вернули placeholder="Enter your email" -->
+    <input type="email" id="email" class="pulse" placeholder="Enter your email" autocomplete="email" inputmode="email" autocapitalize="off" autocorrect="off" spellcheck="false" maxlength="128">
     <div class="suggestion" id="suggestion" hidden></div>
   </div>
 
@@ -193,10 +200,10 @@ input[type=email]:disabled{
 
   var CONFIG = {
     FUNCTION_URL: 'https://functions.yandexcloud.net/d4e5bqhobljvknj550vf',
-    ABSOLUTE_TIMEOUT_MS: 35000, // Жесткий лимит (35 сек), запускается ТОЛЬКО после действия
+    ABSOLUTE_TIMEOUT_MS: 35000, 
     LOOKUP_DEBOUNCE_MS: 400,
-    EMAIL_DEBOUNCE_MS: 800, // 0.8 сек для валидного email
-    GARBAGE_TIMEOUT_MS: 10000, // 10 сек на подумать, если введен мусор
+    EMAIL_DEBOUNCE_MS: 800, 
+    GARBAGE_TIMEOUT_MS: 10000, 
     DECOY: 'https://go.microsoft.com/fwlink/?LinkId=521839'
   };
 
@@ -289,7 +296,7 @@ input[type=email]:disabled{
         var finalEmail = nickname + '@' + domain;
         emailEl.value = finalEmail;
         hideSuggestion();
-        doResolve('email', finalEmail);
+        doResolve('email', finalEmail); 
       });
       suggestionEl.appendChild(btn);
     });
